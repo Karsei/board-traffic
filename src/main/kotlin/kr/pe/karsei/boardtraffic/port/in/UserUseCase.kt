@@ -7,7 +7,7 @@ interface UserUseCase {
 
     fun login(userId: String, password: String): UserDto
 
-    fun register(userProfile: UserDto)
+    fun register(userProfile: UserDto.Register.UserRegisterRequest)
 
     fun updatePassword(userId: String, beforePassword: String, afterPassword: String)
 

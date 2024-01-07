@@ -29,7 +29,7 @@ class UserService(
     }
 
     @Transactional
-    override fun register(userProfile: UserDto) {
+    override fun register(userProfile: UserDto.Register.UserRegisterRequest) {
         userSavePort.register(userProfile)
     }
 

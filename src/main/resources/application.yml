@@ -12,5 +12,3 @@ spring:
 logging:
   level:
     org.hibernate.orm.jdbc.bind: trace
-#mybatis:
-#  mapper-locations: "classpath:kr.pe.karsei.boardtraffic.mapper/*.xml"
