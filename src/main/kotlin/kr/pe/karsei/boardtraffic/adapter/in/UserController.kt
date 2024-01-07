@@ -52,7 +52,7 @@ class UserController(
 
     @PostMapping("sign-up")
     @ResponseStatus(HttpStatus.CREATED)
-    fun signUp(@RequestBody userDto: UserDto) {
+    fun signUp(@RequestBody userDto: UserDto.Register.UserRegisterRequest) {
         if (UserDto.hasNullDataBeforeRegister(userDto))
             throw ResponseStatusException(HttpStatus.BAD_REQUEST, "회원가입 정보를 확인해주세요.")
 

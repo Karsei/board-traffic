@@ -6,10 +6,10 @@ import java.time.LocalDateTime
 data class UserDto(
         val id: Long?,
         val userId: String?,
-        var password: String?,
+        val password: String?,
         val nickName: String?,
         val isAdmin: Boolean?,
-        var createdAt: LocalDateTime?,
+        val createdAt: LocalDateTime?,
         val isWithDraw: Boolean?,
         val status: Status?,
         val updatedAt: LocalDateTime?,
@@ -19,8 +19,10 @@ data class UserDto(
     }
 
     companion object Register {
-        fun hasNullDataBeforeRegister(userDto: UserDto): Boolean {
-            return userDto.userId == null || userDto.password == null || userDto.nickName == null
+        fun hasNullDataBeforeRegister(userDto: UserRegisterRequest): Boolean {
+            return userDto.userId == null ||
+                    userDto.password == null ||
+                    userDto.nickName == null
         }
 
         data class UserRegisterRequest(

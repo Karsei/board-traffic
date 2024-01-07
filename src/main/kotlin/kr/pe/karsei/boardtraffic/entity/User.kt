@@ -23,7 +23,7 @@ open class User(
         var nickName: String,
 
         @Column
-        val isAdmin: Boolean = false,
+        var isAdmin: Boolean = false,
 
         @CreatedDate
         @Column(name = "UPDATED_AT")
