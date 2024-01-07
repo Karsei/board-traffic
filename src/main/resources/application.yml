@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    username: root
+    password: test1234
+    url: jdbc:mysql://localhost:3306/board
+  jpa:
+    open-in-view: false
+    show-sql: true
+    database: mysql
+    hibernate:
+      ddl-auto: create
+logging:
+  level:
+    org.hibernate.orm.jdbc.bind: trace
+#mybatis:
+#  mapper-locations: "classpath:kr.pe.karsei.boardtraffic.mapper/*.xml"
