@@ -31,7 +31,7 @@ class UserController(
 
     @PostMapping("sign-in")
     fun signIn(@RequestBody userLoginRequest: UserLoginRequest,
-               httpSession: HttpSession): HttpStatus {
+               httpSession: HttpSession): UserDto {
         val id = userLoginRequest.userId
         val password = userLoginRequest.password
 
@@ -41,7 +41,7 @@ class UserController(
         else
             SessionUtil.setLoginMemberId(httpSession, id)
 
-        return HttpStatus.OK
+        return userDto
     }
 
     @PutMapping
@@ -59,8 +59,8 @@ class UserController(
         userUseCase.register(userDto)
     }
 
-    @PatchMapping("password")
-    fun updateUserPassword(accountId: String,
+    @PatchMapping("{accountId}/password")
+    fun updateUserPassword(@PathVariable accountId: String,
                            @RequestBody userUpdatePasswordRequest: UserUpdatePasswordRequest,
                            session: HttpSession): ResponseEntity<out Any> {
         val id: String = accountId
