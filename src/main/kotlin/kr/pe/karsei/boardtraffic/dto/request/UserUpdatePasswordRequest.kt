@@ -3,8 +3,8 @@ package kr.pe.karsei.boardtraffic.dto.request
 import jakarta.annotation.Nonnull
 
 class UserUpdatePasswordRequest(
-        @Nonnull
+//        @Nonnull
         val beforePassword: String,
-        @Nonnull
+//        @Nonnull
         val afterPassword: String,
 )

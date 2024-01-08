@@ -9,6 +9,6 @@ interface UserSavePort {
                        beforePassword: String,
                        afterPassword: String)
 
-    fun deleteId(userId: String,
-                 password: String)
+    fun deleteUser(userId: String,
+                   password: String)
 }

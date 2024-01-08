@@ -6,10 +6,17 @@ import kr.pe.karsei.boardtraffic.util.logger
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect
+import org.springframework.core.Ordered
+import org.springframework.core.annotation.Order
+import org.springframework.http.HttpStatus
+import org.springframework.stereotype.Component
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.context.request.ServletRequestAttributes
+import org.springframework.web.server.ResponseStatusException
 
 @Aspect
+@Component
+@Order(Ordered.LOWEST_PRECEDENCE)
 class LoginCheckAspect {
     private val logger = logger()
 
@@ -24,7 +31,8 @@ class LoginCheckAspect {
             else -> {
                 SessionUtil.getLoginMemberId(session)
             }
-        }
+        } ?: throw ResponseStatusException(HttpStatus.BAD_REQUEST, "로그인한 ID를 확인해주세요.")
+
         logger.info(proceedingJoinPoint.toString() + " accountName: " + userId)
 
         // controller 에서 첫 번째 인자로 전달

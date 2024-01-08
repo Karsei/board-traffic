@@ -43,6 +43,6 @@ class UserService(
     @Transactional
     override fun deleteUser(userId: String,
                             password: String) {
-        userSavePort.deleteId(userId, password)
+        userSavePort.deleteUser(userId, password)
     }
 }

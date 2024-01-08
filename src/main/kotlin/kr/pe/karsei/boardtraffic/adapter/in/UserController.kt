@@ -16,7 +16,6 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
 
-
 @RestController
 @RequestMapping("/users")
 class UserController(
@@ -28,7 +27,7 @@ class UserController(
     fun memberInfo(session: HttpSession): UserInfoResponse {
         val id = SessionUtil.getLoginMemberId(session)
 
-        val userInfo = userUseCase.getUserInfo(id)
+        val userInfo = userUseCase.getUserInfo(id!!)
         return UserInfoResponse(userInfo)
     }
 
@@ -62,9 +61,9 @@ class UserController(
         userUseCase.register(userDto)
     }
 
-    @PatchMapping("{accountId}/password")
+    @PatchMapping("password")
     @LoginCheck(type = LoginCheck.UserType.USER)
-    fun updateUserPassword(@PathVariable accountId: String,
+    fun updateUserPassword(accountId: String,
                            @RequestBody userUpdatePasswordRequest: UserUpdatePasswordRequest,
                            session: HttpSession): ResponseEntity<out Any> {
         val id: String = accountId
@@ -85,7 +84,7 @@ class UserController(
                  session: HttpSession
     ): ResponseEntity<out Any> {
         return try {
-            userUseCase.deleteUser(SessionUtil.getLoginMemberId(session), userDeleteRequest.password)
+            userUseCase.deleteUser(SessionUtil.getLoginMemberId(session)!!, userDeleteRequest.password)
             ResponseEntity(HttpStatus.NO_CONTENT)
         } catch (e: RuntimeException) {
             logger.info("deleteID 실패", e)

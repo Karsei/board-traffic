@@ -48,8 +48,8 @@ class UserJpaAdapter(
         userRepository.save(user)
     }
 
-    override fun deleteId(userId: String,
-                          password: String) {
+    override fun deleteUser(userId: String,
+                            password: String) {
         val encryptPassword = SHA256Util.encryptSHA256(password)
         val user = userRepository.findByUserIdAndPassword(userId, encryptPassword)
                 ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "올바르지 않는 아이디이거나 비밀번호입니다.")

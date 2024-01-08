@@ -4,7 +4,7 @@ import jakarta.annotation.Nonnull
 
 class UserDeleteRequest(
         @Nonnull
-        val id: String,
+        val userId: String,
         @Nonnull
         val password: String,
 ) {
