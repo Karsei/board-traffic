@@ -11,33 +11,33 @@ import java.time.LocalDateTime
 open class User(
         @Id
         @GeneratedValue
-        val id: Long? = null,
+        open val id: Long? = null,
 
         @Column
-        var userId: String,
+        open var userId: String,
 
         @Column
-        var password: String,
+        open var password: String,
 
         @Column
-        var nickName: String,
+        open var nickName: String,
 
         @Column
-        var isAdmin: Boolean = false,
+        open var isAdmin: Boolean = false,
 
         @CreatedDate
-        @Column(name = "UPDATED_AT")
-        var createdAt: LocalDateTime? = null,
+        @Column(name = "CREATED_AT")
+        open var createdAt: LocalDateTime? = null,
 
         @Column
-        var isWithDraw: Boolean = false,
+        open var isWithDraw: Boolean = false,
 
         @Column
-        var status: Status = Status.DEFAULT,
+        open var status: Status = Status.DEFAULT,
 
         @LastModifiedDate
         @Column(name = "UPDATED_AT")
-        var updatedAt: LocalDateTime? = null,
+        open var updatedAt: LocalDateTime? = null,
 ) {
     fun updatePassword(password: String) {
         this.password = password
