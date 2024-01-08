@@ -1,7 +1,9 @@
 package kr.pe.karsei.boardtraffic.adapter.`in`
 
 import jakarta.servlet.http.HttpSession
+import kr.pe.karsei.boardtraffic.aop.LoginCheck
 import kr.pe.karsei.boardtraffic.dto.UserDto
+import kr.pe.karsei.boardtraffic.dto.request.UserDeleteRequest
 import kr.pe.karsei.boardtraffic.dto.request.UserLoginRequest
 import kr.pe.karsei.boardtraffic.dto.request.UserUpdatePasswordRequest
 import kr.pe.karsei.boardtraffic.dto.response.LoginResponse
@@ -13,6 +15,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
+
 
 @RestController
 @RequestMapping("/users")
@@ -60,6 +63,7 @@ class UserController(
     }
 
     @PatchMapping("{accountId}/password")
+    @LoginCheck(type = LoginCheck.UserType.USER)
     fun updateUserPassword(@PathVariable accountId: String,
                            @RequestBody userUpdatePasswordRequest: UserUpdatePasswordRequest,
                            session: HttpSession): ResponseEntity<out Any> {
@@ -71,7 +75,20 @@ class UserController(
             userUseCase.updatePassword(id, beforePassword, afterPassword)
             ResponseEntity(HttpStatus.NO_CONTENT)
         } catch (e: IllegalArgumentException) {
-            logger().error("updatePassword 실패", e)
+            logger.error("updatePassword 실패", e)
+            FAIL_RESPONSE
+        }
+    }
+
+    @DeleteMapping
+    fun deleteId(@RequestBody userDeleteRequest: UserDeleteRequest,
+                 session: HttpSession
+    ): ResponseEntity<out Any> {
+        return try {
+            userUseCase.deleteUser(SessionUtil.getLoginMemberId(session), userDeleteRequest.password)
+            ResponseEntity(HttpStatus.NO_CONTENT)
+        } catch (e: RuntimeException) {
+            logger.info("deleteID 실패", e)
             FAIL_RESPONSE
         }
     }

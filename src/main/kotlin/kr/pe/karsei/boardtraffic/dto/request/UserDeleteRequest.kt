@@ -2,10 +2,10 @@ package kr.pe.karsei.boardtraffic.dto.request
 
 import jakarta.annotation.Nonnull
 
-class UserDeleteId(
+class UserDeleteRequest(
         @Nonnull
-        private val id: String,
+        val id: String,
         @Nonnull
-        private val password: String,
+        val password: String,
 ) {
 }
