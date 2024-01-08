@@ -1,11 +1,13 @@
 package kr.pe.karsei.boardtraffic.dto
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.annotation.Nonnull
 import java.time.LocalDateTime
 
 data class UserDto(
         val id: Long?,
         val userId: String?,
+        @JsonIgnore
         val password: String?,
         val nickName: String?,
         val isAdmin: Boolean?,
