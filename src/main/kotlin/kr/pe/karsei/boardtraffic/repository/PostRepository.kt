@@ -1,0 +1,8 @@
+package kr.pe.karsei.boardtraffic.repository
+
+import kr.pe.karsei.boardtraffic.entity.Post
+import org.springframework.data.jpa.repository.JpaRepository
+
+interface PostRepository: JpaRepository<Post, Long>, PostRepositorySupport {
+    fun findByUserId(userId: Long)
+}
