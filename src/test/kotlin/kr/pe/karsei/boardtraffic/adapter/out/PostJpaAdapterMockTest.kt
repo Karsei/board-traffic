@@ -90,11 +90,11 @@ class PostJpaAdapterMockTest {
             )
         )
         val pageable = PageRequest.of(0, 10)
-        given(postRepository.findPosts(any(PostDto.Search.PostSearchRequest::class.java), any(Pageable::class.java)))
+        given(postRepository.findPosts(any(PostDto.PostSearchRequest::class.java), any(Pageable::class.java)))
             .willReturn(PageImpl(list, pageable, list.size.toLong()))
 
         // when
-        val request = PostDto.Search.PostSearchRequest()
+        val request = PostDto.PostSearchRequest()
         val results = postJpaAdapter.findPosts(request, pageable)
 
         // then

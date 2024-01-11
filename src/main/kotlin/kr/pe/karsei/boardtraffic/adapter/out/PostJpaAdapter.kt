@@ -23,15 +23,19 @@ class PostJpaAdapter(
         return postRepository.findByUserId(userId, pageable)
     }
 
-    override fun findPosts(request: PostDto.Search.PostSearchRequest, pageable: Pageable): Page<PostDto> {
+    override fun findPosts(request: PostDto.PostSearchRequest, pageable: Pageable): Page<PostDto> {
         return postRepository.findPosts(request, pageable)
     }
 
     override fun updatePost(request: PostDto.PostUpdateRequest) {
         val post = postRepository.findById(request.id)
             .orElseThrow { throw ResponseStatusException(HttpStatus.NOT_FOUND, "포스트가 존재하지 않습니다.") }
-        val category = categoryRepository.findById(request.categoryId).orElse(null)
-        val file = fileRepository.findById(request.fileId).orElse(null)
+        val category = if (request.categoryId != null) {
+            categoryRepository.findById(request.categoryId).orElse(null)
+        } else { null }
+        val file = if (request.fileId != null) {
+            fileRepository.findById(request.fileId).orElse(null)
+        } else { null }
         post.update(request.title, request.contents, category, file)
         postRepository.save(post)
     }

@@ -14,7 +14,7 @@ class PostService(
     private val postLoadPort: PostLoadPort,
     private val postSavePort: PostSavePort,
 ): PostUseCase {
-    override fun findPosts(postDto: PostDto.Search.PostSearchRequest, pageable: Pageable): Page<PostDto> {
+    override fun findPosts(postDto: PostDto.PostSearchRequest, pageable: Pageable): Page<PostDto> {
         return postLoadPort.findPosts(postDto, pageable)
     }
 

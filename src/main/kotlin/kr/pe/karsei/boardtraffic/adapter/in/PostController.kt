@@ -12,13 +12,13 @@ class PostController(
     private val postUseCase: PostUseCase,
 ) {
     @GetMapping
-    fun search(request: PostDto.Search.PostSearchRequest,
+    fun search(request: PostDto.PostSearchRequest,
                pageable: Pageable): Page<PostDto> {
         return postUseCase.findPosts(request, pageable)
     }
 
     @GetMapping("my-list")
-    fun searchMyPosts(request: PostDto.Search.PostSearchRequest,
+    fun searchMyPosts(request: PostDto.PostSearchRequest,
                       pageable: Pageable): Page<PostDto> {
         return postUseCase.findPosts(request, pageable)
     }
