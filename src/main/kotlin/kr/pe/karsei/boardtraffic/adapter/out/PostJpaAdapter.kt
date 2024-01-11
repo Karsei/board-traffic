@@ -37,6 +37,8 @@ class PostJpaAdapter(
     }
 
     override fun deletePost(postId: Long) {
+        val exists = postRepository.existsById(postId)
+        if (!exists) throw ResponseStatusException(HttpStatus.NOT_FOUND, "포스트가 존재하지 않습니다.")
         postRepository.deleteById(postId)
     }
 }
