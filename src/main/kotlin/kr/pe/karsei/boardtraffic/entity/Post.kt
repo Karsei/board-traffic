@@ -55,4 +55,11 @@ open class Post(
                 )
         }
     }
+
+    fun update(title: String, contents: String, category: Category?, file: File?) {
+        this.title = title
+        this.contents = contents
+        if (category != null) this.category = category
+        if (file != null) this.file = file
+    }
 }

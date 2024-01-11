@@ -26,4 +26,13 @@ data class PostDto(
             NEWEST, OLDEST, CATEGORIES
         }
     }
+
+    data class PostUpdateRequest(
+        val id: Long,
+        val title: String,
+        val contents: String,
+        val views: Int,
+        val categoryId: Long,
+        val fileId: Long,
+    )
 }
