@@ -1,4 +1,4 @@
-package kr.pe.karsei.boardtraffic.config
+package kr.pe.karsei.boardtraffic.config.db
 
 import com.p6spy.engine.logging.Category
 import com.p6spy.engine.spy.P6SpyOptions
