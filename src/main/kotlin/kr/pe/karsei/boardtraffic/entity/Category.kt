@@ -10,4 +10,8 @@ open class Category(
 
     @Column
     open var title: String,
-)
+) {
+    fun update(title: String) {
+        this.title = title
+    }
+}
