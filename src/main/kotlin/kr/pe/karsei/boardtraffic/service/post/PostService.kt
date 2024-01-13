@@ -5,7 +5,7 @@ import kr.pe.karsei.boardtraffic.port.`in`.PostUseCase
 import kr.pe.karsei.boardtraffic.port.out.PostLoadPort
 import kr.pe.karsei.boardtraffic.port.out.PostSavePort
 import kr.pe.karsei.boardtraffic.port.out.UserLoadPort
-import kr.pe.karsei.boardtraffic.service.post.PostMapper.Companion.mapToEntityToDto
+import kr.pe.karsei.boardtraffic.service.post.PostMapper.Companion.mapToEntityToPostDto
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
@@ -34,7 +34,7 @@ class PostService(
         val user = userLoadPort.getUserInfo(userId)
                 ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "유저가 존재하지 않습니다.")
         val post = postSavePort.insertPost(user, params)
-        return mapToEntityToDto(post)!!
+        return mapToEntityToPostDto(post)!!
     }
 
     @Transactional
@@ -42,7 +42,7 @@ class PostService(
         userLoadPort.getUserInfo(userId)
                 ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "유저가 존재하지 않습니다.")
         val post = postSavePort.updatePost(params)
-        return mapToEntityToDto(post)!!
+        return mapToEntityToPostDto(post)!!
     }
 
     @Transactional
@@ -50,6 +50,6 @@ class PostService(
         userLoadPort.getUserInfo(userId)
                 ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "유저가 존재하지 않습니다.")
         val post = postSavePort.deletePost(postId)
-        return mapToEntityToDto(post)!!
+        return mapToEntityToPostDto(post)!!
     }
 }

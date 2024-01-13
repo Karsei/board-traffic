@@ -1,6 +1,9 @@
 package kr.pe.karsei.boardtraffic.dto
 
-class CategoryDto {
+class CategoryDto(
+        val id: Long?,
+        val title: String?
+) {
     data class InsertPostCategory(
         val title: String,
     )

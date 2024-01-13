@@ -1,7 +1,9 @@
 package kr.pe.karsei.boardtraffic.adapter.`in`
 
 import kr.pe.karsei.boardtraffic.aop.LoginCheck
+import kr.pe.karsei.boardtraffic.dto.CategoryDto
 import kr.pe.karsei.boardtraffic.dto.PostDto
+import kr.pe.karsei.boardtraffic.port.`in`.CategoryUseCase
 import kr.pe.karsei.boardtraffic.port.`in`.PostUseCase
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/posts")
 class PostController(
     private val postUseCase: PostUseCase,
+    private val categoryUseCase: CategoryUseCase,
 ) {
     // ------------------------- POST
     @GetMapping
@@ -38,7 +41,7 @@ class PostController(
     @LoginCheck(type = LoginCheck.UserType.USER)
     fun updatePost(userId: Long,
                    @PathVariable postId: Long,
-                   request: PostDto.PostUpdateRequest): PostDto {
+                   @RequestBody request: PostDto.PostUpdateRequest): PostDto {
         return postUseCase.updatePost(userId, request)
     }
 
@@ -47,5 +50,28 @@ class PostController(
     fun deletePost(userId: Long,
                    @PathVariable postId: Long): PostDto {
         return postUseCase.deletePost(userId, postId)
+    }
+
+    // ------------------------- CATEGORY
+    @PostMapping
+    @LoginCheck(type = LoginCheck.UserType.ADMIN)
+    fun insertCategory(userId: Long,
+                       @RequestBody request: CategoryDto.InsertPostCategory): CategoryDto {
+        return categoryUseCase.insertCategory(request)
+    }
+
+    @PatchMapping("{categoryId}")
+    @LoginCheck(type = LoginCheck.UserType.ADMIN)
+    fun updateCategory(userId: Long,
+                       @PathVariable categoryId: Long,
+                       @RequestBody request: CategoryDto.UpdatePostCategory): CategoryDto {
+        return categoryUseCase.updateCategory(categoryId, request)
+    }
+
+    @DeleteMapping("{categoryId}")
+    @LoginCheck(type = LoginCheck.UserType.ADMIN)
+    fun deleteCategory(userId: Long,
+                       @PathVariable categoryId: Long): CategoryDto {
+        return categoryUseCase.deleteCategory(categoryId)
     }
 }

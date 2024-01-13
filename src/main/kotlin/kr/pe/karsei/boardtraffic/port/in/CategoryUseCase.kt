@@ -3,9 +3,9 @@ package kr.pe.karsei.boardtraffic.port.`in`
 import kr.pe.karsei.boardtraffic.dto.CategoryDto
 
 interface CategoryUseCase {
-    fun insertCategory(params: CategoryDto.InsertPostCategory)
+    fun insertCategory(params: CategoryDto.InsertPostCategory): CategoryDto
 
-    fun updateCategory(categoryId: Long, params: CategoryDto.UpdatePostCategory)
+    fun updateCategory(categoryId: Long, params: CategoryDto.UpdatePostCategory): CategoryDto
 
-    fun deleteCategory(categoryId: Long)
+    fun deleteCategory(categoryId: Long): CategoryDto
 }
