@@ -46,7 +46,7 @@ class UserRepositoryTest @Autowired constructor(
     @Test
     fun testFindingByUserIdAndPassword() {
         // given
-        val userId = "testId"
+        val userId = 1L
         val password = "1234"
 
         // when

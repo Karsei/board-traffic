@@ -13,7 +13,6 @@ import org.springframework.web.server.ResponseStatusException
 @Service
 class PostCommentService(
     private val postCommentSavePort: PostCommentSavePort,
-
     private val userLoadPort: UserLoadPort,
 ): PostCommentUseCase {
     @Transactional

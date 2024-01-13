@@ -121,6 +121,8 @@ class PostJpaAdapterMockTest {
     fun updatePost() {
         // given
         val request = PostDto.UpdatePostRequest(
+            postId = 1L,
+            userId = 1L,
             id = 1L,
             title = "점심은?",
             contents = "점심먹자~",

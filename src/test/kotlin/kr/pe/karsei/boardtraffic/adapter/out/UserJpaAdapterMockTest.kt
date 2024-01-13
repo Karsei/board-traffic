@@ -10,8 +10,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.ArgumentMatchers.any
-import org.mockito.ArgumentMatchers.anyString
+import org.mockito.ArgumentMatchers.*
 import org.mockito.BDDMockito.given
 import org.mockito.InjectMocks
 import org.mockito.Mock
@@ -42,7 +41,7 @@ class UserJpaAdapterMockTest {
         given(userRepository.findByUserId(anyString())).willReturn(mockUserForRead)
 
         // when
-        val userId = "testId"
+        val userId = 1L
         val password = SHA256Util.encryptSHA256("1234")
         val result = userJpaAdapter.getUserInfo(userId)
 
@@ -64,7 +63,7 @@ class UserJpaAdapterMockTest {
     @Test
     fun testGetUserInfoWithPassword() {
         // given
-        given(userRepository.findByIdAndPassword(anyString(), anyString())).willReturn(mockUserForRead)
+        given(userRepository.findByIdAndPassword(anyLong(), anyString())).willReturn(mockUserForRead)
 
         // when
         val userId = "testId"
@@ -145,10 +144,10 @@ class UserJpaAdapterMockTest {
     @Test
     fun updatePasswordIfUserIdIsNotFound() {
         // given
-        given(userRepository.findByIdAndPassword(anyString(), anyString())).willReturn(null)
+        given(userRepository.findByIdAndPassword(anyLong(), anyString())).willReturn(null)
 
         // when & then
-        val userId = "testId"
+        val userId = 1L
         val beforePassword = "1234"
         val afterPassword = "1111"
         val exception = assertThrows(ResponseStatusException::class.java) {
@@ -166,10 +165,10 @@ class UserJpaAdapterMockTest {
     @Test
     fun updatePasswordSuccessful() {
         // given
-        given(userRepository.findByIdAndPassword(anyString(), anyString())).willReturn(mockUserForRead)
+        given(userRepository.findByIdAndPassword(anyLong(), anyString())).willReturn(mockUserForRead)
 
         // when & then
-        val userId = "testId"
+        val userId = 1L
         val beforePassword = "1234"
         val afterPassword = "1111"
         assertDoesNotThrow { userJpaAdapter.updatePassword(userId, beforePassword, afterPassword) }
@@ -178,10 +177,10 @@ class UserJpaAdapterMockTest {
     @Test
     fun deleteUserIfUserIdIsNotFound() {
         // given
-        given(userRepository.findByIdAndPassword(anyString(), anyString())).willReturn(null)
+        given(userRepository.findByIdAndPassword(anyLong(), anyString())).willReturn(null)
 
         // when & then
-        val userId = "testId"
+        val userId = 1L
         val password = "1234"
         val exception = assertThrows(ResponseStatusException::class.java) {
             userJpaAdapter.deleteUser(
@@ -197,10 +196,10 @@ class UserJpaAdapterMockTest {
     @Test
     fun deleteUserSuccessful() {
         // given
-        given(userRepository.findByIdAndPassword(anyString(), anyString())).willReturn(mockUserForRead)
+        given(userRepository.findByIdAndPassword(anyLong(), anyString())).willReturn(mockUserForRead)
 
         // when & then
-        val userId = "testId"
+        val userId = 1L
         val password = "1234"
         assertDoesNotThrow { userJpaAdapter.deleteUser(userId, password) }
     }
