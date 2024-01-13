@@ -41,6 +41,7 @@ services:
       - --collation-server=utf8mb4_unicode_ci
     volumes:
       - ../mariadb:/var/lib/mysql --user 1000
+      - ./mysql-init-files/:/docker-entrypoint-initdb.d:ro
     networks:
       - default
 
