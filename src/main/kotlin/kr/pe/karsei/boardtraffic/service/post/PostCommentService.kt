@@ -17,17 +17,17 @@ class PostCommentService(
     private val userLoadPort: UserLoadPort,
 ): PostCommentUseCase {
     @Transactional
-    override fun insertComment(userId: Long, postId: Long, params: CommentDto.InsertCommentRequest): CommentDto {
-        userLoadPort.getUserInfo(userId)
+    override fun insertComment(params: CommentDto.InsertCommentRequest): CommentDto {
+        userLoadPort.getUserInfo(params.userId!!)
                 ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "유저가 존재하지 않습니다.")
         return mapToEntityToPostCommentDto(postCommentSavePort.insertComment(params))!!
     }
 
     @Transactional
-    override fun updateComment(userId: Long, postId: Long, commentId: Long, params: CommentDto.UpdateCommentRequest): CommentDto {
-        userLoadPort.getUserInfo(userId)
+    override fun updateComment(params: CommentDto.UpdateCommentRequest): CommentDto {
+        userLoadPort.getUserInfo(params.userId!!)
                 ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "유저가 존재하지 않습니다.")
-        return mapToEntityToPostCommentDto(postCommentSavePort.updateComment(commentId, params))!!
+        return mapToEntityToPostCommentDto(postCommentSavePort.updateComment(params.commentId!!, params))!!
     }
 
     @Transactional

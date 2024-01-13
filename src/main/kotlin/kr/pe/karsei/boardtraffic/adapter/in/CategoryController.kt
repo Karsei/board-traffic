@@ -13,16 +13,18 @@ class CategoryController(
     @PostMapping
     @LoginCheck(type = LoginCheck.UserType.ADMIN)
     fun insertCategory(userId: Long,
-                       @RequestBody request: CategoryDto.InsertPostCategory): CategoryDto {
-        return categoryUseCase.insertCategory(request)
+                       @RequestBody params: CategoryDto.InsertPostCategory): CategoryDto {
+        params.setMandatory(userId)
+        return categoryUseCase.insertCategory(params)
     }
 
     @PatchMapping("{categoryId}")
     @LoginCheck(type = LoginCheck.UserType.ADMIN)
     fun updateCategory(userId: Long,
                        @PathVariable categoryId: Long,
-                       @RequestBody request: CategoryDto.UpdatePostCategory): CategoryDto {
-        return categoryUseCase.updateCategory(categoryId, request)
+                       @RequestBody params: CategoryDto.UpdatePostCategory): CategoryDto {
+        params.setMandatory(userId, categoryId)
+        return categoryUseCase.updateCategory(params)
     }
 
     @DeleteMapping("{categoryId}")

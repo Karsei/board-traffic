@@ -38,7 +38,7 @@ class PostService(
     }
 
     @Transactional
-    override fun updatePost(userId: Long, params: PostDto.PostUpdateRequest): PostDto {
+    override fun updatePost(userId: Long, params: PostDto.UpdatePostRequest): PostDto {
         userLoadPort.getUserInfo(userId)
                 ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "유저가 존재하지 않습니다.")
         val post = postSavePort.updatePost(params)

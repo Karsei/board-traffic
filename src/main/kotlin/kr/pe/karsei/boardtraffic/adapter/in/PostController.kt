@@ -1,10 +1,8 @@
 package kr.pe.karsei.boardtraffic.adapter.`in`
 
 import kr.pe.karsei.boardtraffic.aop.LoginCheck
-import kr.pe.karsei.boardtraffic.dto.CategoryDto
 import kr.pe.karsei.boardtraffic.dto.CommentDto
 import kr.pe.karsei.boardtraffic.dto.PostDto
-import kr.pe.karsei.boardtraffic.port.`in`.CategoryUseCase
 import kr.pe.karsei.boardtraffic.port.`in`.PostCommentUseCase
 import kr.pe.karsei.boardtraffic.port.`in`.PostUseCase
 import org.springframework.data.domain.Page
@@ -36,15 +34,17 @@ class PostController(
     @LoginCheck(type = LoginCheck.UserType.USER)
     fun insertPost(userId: Long,
                    @RequestBody params: PostDto.InsertPostRequest): PostDto {
-        return postUseCase.insertPost(userId, params)
+        params.setMandatory(userId)
+        return postUseCase.insertPost(params)
     }
 
     @PatchMapping("{postId}")
     @LoginCheck(type = LoginCheck.UserType.USER)
     fun updatePost(userId: Long,
                    @PathVariable postId: Long,
-                   @RequestBody params: PostDto.PostUpdateRequest): PostDto {
-        return postUseCase.updatePost(userId, params)
+                   @RequestBody params: PostDto.UpdatePostRequest): PostDto {
+        params.setMandatory(userId, postId)
+        return postUseCase.updatePost(params)
     }
 
     @DeleteMapping("{postId}")
@@ -60,7 +60,8 @@ class PostController(
     fun insertComment(userId: Long,
                       @PathVariable postId: Long,
                       @RequestBody params: CommentDto.InsertCommentRequest): CommentDto {
-        return postCommentUseCase.insertComment(userId, postId, params)
+        params.setMandatory(userId, postId)
+        return postCommentUseCase.insertComment(params)
     }
 
     @PatchMapping("{postId}/comments/{commentId}")
@@ -69,7 +70,8 @@ class PostController(
                       @PathVariable postId: Long,
                       @PathVariable commentId: Long,
                       @RequestBody params: CommentDto.UpdateCommentRequest): CommentDto {
-        return postCommentUseCase.updateComment(userId, postId, commentId, params)
+        params.setMandatory(userId, postId, commentId)
+        return postCommentUseCase.updateComment(params)
     }
 
     @DeleteMapping("{postId}/comments/{commentId}")

@@ -25,20 +25,31 @@ data class PostDto(
         }
     }
 
-    data class PostUpdateRequest(
+    data class InsertPostRequest(
+            var userId: Long?,
+            var fileId: Long?,
+            val title: String,
+            val contents: String,
+            val categoryId: Long,
+    ) {
+        fun setMandatory(userId: Long) {
+            this.userId = userId
+        }
+    }
+
+    data class UpdatePostRequest(
+        var userId: Long?,
+        var postId: Long?,
+        var categoryId: Long?,
+        var fileId: Long?,
         val id: Long,
         val title: String,
         val contents: String,
         val views: Int,
-        val categoryId: Long?,
-        val fileId: Long?,
-    )
-
-    data class InsertPostRequest(
-            val title: String,
-            val contents: String,
-            val userId: Long,
-            val categoryId: Long,
-            val fileId: Long?,
-    )
+    ) {
+        fun setMandatory(userId: Long, postId: Long) {
+            this.userId = userId
+            this.postId = postId
+        }
+    }
 }

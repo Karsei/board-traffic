@@ -41,7 +41,7 @@ class PostJpaAdapter(
         ))
     }
 
-    override fun updatePost(params: PostDto.PostUpdateRequest): Post {
+    override fun updatePost(params: PostDto.UpdatePostRequest): Post {
         val post = postRepository.findById(params.id)
             .orElseThrow { throw ResponseStatusException(HttpStatus.NOT_FOUND, "포스트가 존재하지 않습니다.") }
         val category = if (params.categoryId != null) {

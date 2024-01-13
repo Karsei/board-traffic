@@ -5,7 +5,7 @@ import kr.pe.karsei.boardtraffic.dto.CategoryDto
 interface CategoryUseCase {
     fun insertCategory(params: CategoryDto.InsertPostCategory): CategoryDto
 
-    fun updateCategory(categoryId: Long, params: CategoryDto.UpdatePostCategory): CategoryDto
+    fun updateCategory(params: CategoryDto.UpdatePostCategory): CategoryDto
 
     fun deleteCategory(categoryId: Long): CategoryDto
 }

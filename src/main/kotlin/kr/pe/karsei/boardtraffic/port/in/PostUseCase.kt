@@ -9,9 +9,9 @@ interface PostUseCase {
 
     fun findMyPosts(userId: Long, params: PostDto.PostSearchRequest, pageable: Pageable): Page<PostDto>
 
-    fun insertPost(userId: Long, params: PostDto.InsertPostRequest): PostDto
+    fun insertPost(params: PostDto.InsertPostRequest): PostDto
 
-    fun updatePost(userId: Long, params: PostDto.PostUpdateRequest): PostDto
+    fun updatePost(params: PostDto.UpdatePostRequest): PostDto
 
     fun deletePost(userId: Long, postId: Long): PostDto
 }
