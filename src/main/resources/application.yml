@@ -1,8 +1,8 @@
 spring:
   datasource:
-    username: root
-    password: test1234
-    url: jdbc:mysql://localhost:3306/board
+    username: ${BOARD_MYSQL_USERNAME}
+    password: ${BOARD_MYSQL_PASSWORD}
+    url: jdbc:mysql://${BOARD_MYSQL_HOST}:${BOARD_MYSQL_PORT}/board
   jpa:
     open-in-view: false
     show-sql: true

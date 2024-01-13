@@ -1,6 +1,17 @@
 version: "3.9"
 
 services:
+  app:
+    container_name: app
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+    volumes:
+      - ..:/workspace/:cached
+    ports:
+      - "8080:8080"
+    networks:
+      - default
   redis:
     image: redis:7.0.9-alpine
     container_name: redis
@@ -14,7 +25,7 @@ services:
       - -c
       - redis-server --requirepass "$${REDIS_PASSWORD:?REDIS_PASSWORD variable is not set}"
     volumes:
-      - ./redis:/data
+      - ../redis:/data
     networks:
       - default
   mysql:
@@ -29,7 +40,7 @@ services:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
     volumes:
-      - ./mariadb:/var/lib/mysql
+      - ../mariadb:/var/lib/mysql --user 1000
     networks:
       - default
 

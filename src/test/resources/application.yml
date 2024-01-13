@@ -1,7 +1,7 @@
 spring:
   datasource:
-    username: root
-    password: test1234
+    username: ${BOARD_MYSQL_USERNAME}
+    password: ${BOARD_MYSQL_PASSWORD}
     url: jdbc:tc:mysql:8.0.31://testDB
     driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
   jpa:
