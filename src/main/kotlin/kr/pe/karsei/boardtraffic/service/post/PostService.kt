@@ -1,4 +1,4 @@
-package kr.pe.karsei.boardtraffic.service
+package kr.pe.karsei.boardtraffic.service.post
 
 import kr.pe.karsei.boardtraffic.dto.PostDto
 import kr.pe.karsei.boardtraffic.entity.Post

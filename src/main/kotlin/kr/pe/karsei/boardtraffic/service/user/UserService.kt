@@ -1,4 +1,4 @@
-package kr.pe.karsei.boardtraffic.service
+package kr.pe.karsei.boardtraffic.service.user
 
 import kr.pe.karsei.boardtraffic.dto.UserDto
 import kr.pe.karsei.boardtraffic.entity.User
