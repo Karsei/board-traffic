@@ -3,9 +3,9 @@ package kr.pe.karsei.boardtraffic.port.`in`
 import kr.pe.karsei.boardtraffic.dto.CommentDto
 
 interface PostCommentUseCase {
-    fun insertComment(params: CommentDto.InsertCommentRequest)
+    fun insertComment(userId: Long, postId: Long, params: CommentDto.InsertCommentRequest): CommentDto
 
-    fun updateComment(commentId: Long, params: CommentDto.UpdateCommentRequest)
+    fun updateComment(userId: Long, postId: Long, commentId: Long, params: CommentDto.UpdateCommentRequest): CommentDto
 
-    fun deleteComment(commentId: Long)
+    fun deleteComment(userId: Long, postId: Long, commentId: Long): CommentDto
 }
