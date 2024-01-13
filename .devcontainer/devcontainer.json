@@ -8,8 +8,10 @@
     "BOARD_MYSQL_PASSWORD": "test1234",
     "BOARD_MYSQL_HOST": "localhost",
     "BOARD_MYSQL_PORT": "3306",
+    "BOARD_REDIS_HOST": "localhost",
     "BOARD_REDIS_PASSWORD": "test1234",
-    "BOARD_REDIS_HOST": "localhost"
+    "BOARD_REDIS_PORT": "6379",
+    "BOARD_REDIS_DATABASE": "0"
   },
 
   // Configure tool-specific properties.

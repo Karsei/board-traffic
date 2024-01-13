@@ -17,38 +17,38 @@ import java.time.Duration
 
 @Configuration
 class RedisConfiguration {
-//    @Bean
-//    fun redisConnectionFactory(redisProperties: RedisProperties): LettuceConnectionFactory {
-//        val configuration = RedisStandaloneConfiguration()
-//        configuration.hostName = redisProperties.host
-//        configuration.port = redisProperties.port
-//        configuration.password = RedisPassword.of(redisProperties.password)
-//
-//        return LettuceConnectionFactory(configuration)
-//    }
-//
-//    @Bean
-//    fun redisPostCacheManager(redisConnectionFactory: RedisConnectionFactory,
-//                              objectMapper: ObjectMapper): RedisCacheManager {
-//        val cacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
-//            .disableCachingNullValues()
-//            .entryTtl(Duration.ofSeconds(DEFAULT_EXPIRE_SECONDS))
-//            .serializeKeysWith(
-//                RedisSerializationContext.SerializationPair.fromSerializer(
-//                    StringRedisSerializer()
-//                )
-//            )
-//            .serializeValuesWith(
-//                RedisSerializationContext.SerializationPair.fromSerializer(
-//                    GenericJackson2JsonRedisSerializer(objectMapper)
-//                )
-//            )
-//
-//        return RedisCacheManager.RedisCacheManagerBuilder
-//            .fromConnectionFactory(redisConnectionFactory)
-//            .cacheDefaults(cacheConfiguration)
-//            .build()
-//    }
+    @Bean
+    fun redisConnectionFactory(redisProperties: RedisProperties): LettuceConnectionFactory {
+        val configuration = RedisStandaloneConfiguration()
+        configuration.hostName = redisProperties.host
+        configuration.port = redisProperties.port
+        configuration.password = RedisPassword.of(redisProperties.password)
+
+        return LettuceConnectionFactory(configuration)
+    }
+
+    @Bean
+    fun redisPostCacheManager(redisConnectionFactory: RedisConnectionFactory,
+                              objectMapper: ObjectMapper): RedisCacheManager {
+        val cacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
+            .disableCachingNullValues()
+            .entryTtl(Duration.ofSeconds(DEFAULT_EXPIRE_SECONDS))
+            .serializeKeysWith(
+                RedisSerializationContext.SerializationPair.fromSerializer(
+                    StringRedisSerializer()
+                )
+            )
+            .serializeValuesWith(
+                RedisSerializationContext.SerializationPair.fromSerializer(
+                    GenericJackson2JsonRedisSerializer(objectMapper)
+                )
+            )
+
+        return RedisCacheManager.RedisCacheManagerBuilder
+            .fromConnectionFactory(redisConnectionFactory)
+            .cacheDefaults(cacheConfiguration)
+            .build()
+    }
 
     companion object {
         private const val DEFAULT_EXPIRE_SECONDS: Long = 3600L

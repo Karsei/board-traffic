@@ -9,6 +9,12 @@ spring:
     hibernate:
       ddl-auto: create
     database-platform: org.hibernate.dialect.MySQLDialect
+  data:
+    redis:
+      host: ${BOARD_REDIS_HOST}
+      password: ${BOARD_REDIS_PASSWORD}
+      port: ${BOARD_REDIS_PORT}
+      database: ${BOARD_REDIS_DATABASE}
 logging:
   level:
     org.hibernate.orm.jdbc.bind: trace
