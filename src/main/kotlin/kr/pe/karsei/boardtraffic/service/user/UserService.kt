@@ -1,10 +1,10 @@
 package kr.pe.karsei.boardtraffic.service.user
 
 import kr.pe.karsei.boardtraffic.dto.UserDto
-import kr.pe.karsei.boardtraffic.entity.User
 import kr.pe.karsei.boardtraffic.port.`in`.UserUseCase
 import kr.pe.karsei.boardtraffic.port.out.UserLoadPort
 import kr.pe.karsei.boardtraffic.port.out.UserSavePort
+import kr.pe.karsei.boardtraffic.service.user.UserMapper.Companion.mapToEntityToDto
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -49,20 +49,5 @@ class UserService(
                             password: String): UserDto {
         val user = userSavePort.deleteUser(userId, password)
         return mapToEntityToDto(user)!!
-    }
-
-    private fun mapToEntityToDto(entity: User?): UserDto? {
-        if (entity == null) return null
-        return UserDto(
-                id = entity.id,
-                userId = entity.userId,
-                password = entity.password,
-                nickName = entity.nickName,
-                isAdmin = entity.isAdmin,
-                createdAt = entity.createdAt,
-                isWithDraw = entity.isWithDraw,
-                status = UserDto.Status.valueOf(entity.status.name),
-                updatedAt = entity.updatedAt,
-        )
     }
 }

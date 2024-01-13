@@ -1,11 +1,11 @@
 package kr.pe.karsei.boardtraffic.service.post
 
 import kr.pe.karsei.boardtraffic.dto.PostDto
-import kr.pe.karsei.boardtraffic.entity.Post
 import kr.pe.karsei.boardtraffic.port.`in`.PostUseCase
 import kr.pe.karsei.boardtraffic.port.out.PostLoadPort
 import kr.pe.karsei.boardtraffic.port.out.PostSavePort
 import kr.pe.karsei.boardtraffic.port.out.UserLoadPort
+import kr.pe.karsei.boardtraffic.service.post.PostMapper.Companion.mapToEntityToDto
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
@@ -30,23 +30,26 @@ class PostService(
     }
 
     @Transactional(readOnly = true)
-    override fun insertPost(userId: Long, params: PostDto.InsertPostRequest) {
+    override fun insertPost(userId: Long, params: PostDto.InsertPostRequest): PostDto {
         val user = userLoadPort.getUserInfo(userId)
                 ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "유저가 존재하지 않습니다.")
-        postSavePort.insertPost(user, params)
+        val post = postSavePort.insertPost(user, params)
+        return mapToEntityToDto(post)!!
     }
 
     @Transactional
-    override fun updatePost(userId: Long, params: PostDto.PostUpdateRequest) {
+    override fun updatePost(userId: Long, params: PostDto.PostUpdateRequest): PostDto {
         userLoadPort.getUserInfo(userId)
                 ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "유저가 존재하지 않습니다.")
-        postSavePort.updatePost(params)
+        val post = postSavePort.updatePost(params)
+        return mapToEntityToDto(post)!!
     }
 
     @Transactional
-    override fun deletePost(userId: Long, postId: Long) {
+    override fun deletePost(userId: Long, postId: Long): PostDto {
         userLoadPort.getUserInfo(userId)
                 ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "유저가 존재하지 않습니다.")
-        postSavePort.deletePost(postId)
+        val post = postSavePort.deletePost(postId)
+        return mapToEntityToDto(post)!!
     }
 }
