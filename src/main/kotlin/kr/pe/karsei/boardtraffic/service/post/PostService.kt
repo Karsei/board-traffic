@@ -30,16 +30,16 @@ class PostService(
     }
 
     @Transactional(readOnly = true)
-    override fun insertPost(userId: Long, params: PostDto.InsertPostRequest): PostDto {
-        val user = userLoadPort.getUserInfo(userId)
+    override fun insertPost(params: PostDto.InsertPostRequest): PostDto {
+        val user = userLoadPort.getUserInfo(params.userId!!)
                 ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "유저가 존재하지 않습니다.")
         val post = postSavePort.insertPost(user, params)
         return mapToEntityToPostDto(post)!!
     }
 
     @Transactional
-    override fun updatePost(userId: Long, params: PostDto.UpdatePostRequest): PostDto {
-        userLoadPort.getUserInfo(userId)
+    override fun updatePost(params: PostDto.UpdatePostRequest): PostDto {
+        userLoadPort.getUserInfo(params.userId!!)
                 ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "유저가 존재하지 않습니다.")
         val post = postSavePort.updatePost(params)
         return mapToEntityToPostDto(post)!!
