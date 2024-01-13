@@ -45,10 +45,10 @@ class PostJpaAdapter(
         val post = postRepository.findById(params.id)
             .orElseThrow { throw ResponseStatusException(HttpStatus.NOT_FOUND, "포스트가 존재하지 않습니다.") }
         val category = if (params.categoryId != null) {
-            categoryRepository.findById(params.categoryId).orElse(null)
+            categoryRepository.findById(params.categoryId!!).orElse(null)
         } else { null }
         val file = if (params.fileId != null) {
-            fileRepository.findById(params.fileId).orElse(null)
+            fileRepository.findById(params.fileId!!).orElse(null)
         } else { null }
         post.update(params.title, params.contents, category, file)
         return postRepository.save(post)
@@ -66,8 +66,8 @@ class PostJpaAdapter(
         return categoryRepository.save(Category(id = null, title = params.title))
     }
 
-    override fun updateCategory(categoryId: Long, params: CategoryDto.UpdatePostCategory): Category {
-        val category = categoryRepository.findById(categoryId)
+    override fun updateCategory(params: CategoryDto.UpdatePostCategory): Category {
+        val category = categoryRepository.findById(params.categoryId!!)
             .orElseThrow { throw ResponseStatusException(HttpStatus.NOT_FOUND, "카테고리가 존재하지 않습니다.") }
         category.update(title = params.title)
         return categoryRepository.save(category)
@@ -81,21 +81,22 @@ class PostJpaAdapter(
     }
 
     // ************************************* COMMENT
-    override fun insertComment(params: CommentDto.InsertCommentRequest) {
-        commentRepository.save(Comment(id = null, contents = params.contents))
+    override fun insertComment(params: CommentDto.InsertCommentRequest): Comment {
+        return commentRepository.save(Comment(id = null, contents = params.contents))
     }
 
-    override fun updateComment(commentId: Long, params: CommentDto.UpdateCommentRequest) {
+    override fun updateComment(commentId: Long, params: CommentDto.UpdateCommentRequest): Comment {
         val comment = commentRepository.findById(commentId)
             .orElseThrow { throw ResponseStatusException(HttpStatus.NOT_FOUND, "댓글이 존재하지 않습니다.") }
         comment.update(contents = params.contents)
-        commentRepository.save(comment)
+        return commentRepository.save(comment)
     }
 
-    override fun deleteComment(commentId: Long) {
+    override fun deleteComment(commentId: Long): Comment {
         val comment = commentRepository.findById(commentId)
             .orElseThrow { throw ResponseStatusException(HttpStatus.NOT_FOUND, "댓글이 존재하지 않습니다.") }
         commentRepository.delete(comment)
+        return comment
     }
 
     // ************************************* TAG

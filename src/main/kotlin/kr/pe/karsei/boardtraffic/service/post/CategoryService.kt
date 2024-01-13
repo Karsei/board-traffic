@@ -17,8 +17,8 @@ class CategoryService(
     }
 
     @Transactional
-    override fun updateCategory(categoryId: Long, params: CategoryDto.UpdatePostCategory): CategoryDto {
-        return mapToEntityToCategoryDto(categorySavePort.updateCategory(categoryId, params))!!
+    override fun updateCategory(params: CategoryDto.UpdatePostCategory): CategoryDto {
+        return mapToEntityToCategoryDto(categorySavePort.updateCategory(params))!!
     }
 
     @Transactional

@@ -6,7 +6,7 @@ import kr.pe.karsei.boardtraffic.entity.Category
 interface CategorySavePort {
     fun insertCategory(params: CategoryDto.InsertPostCategory): Category
 
-    fun updateCategory(categoryId: Long, params: CategoryDto.UpdatePostCategory): Category
+    fun updateCategory(params: CategoryDto.UpdatePostCategory): Category
 
     fun deleteCategory(categoryId: Long): Category
 }
