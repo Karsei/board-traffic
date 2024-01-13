@@ -4,10 +4,7 @@ import kr.pe.karsei.boardtraffic.dto.CategoryDto
 import kr.pe.karsei.boardtraffic.dto.CommentDto
 import kr.pe.karsei.boardtraffic.dto.PostDto
 import kr.pe.karsei.boardtraffic.dto.TagDto
-import kr.pe.karsei.boardtraffic.entity.Category
-import kr.pe.karsei.boardtraffic.entity.Comment
-import kr.pe.karsei.boardtraffic.entity.Post
-import kr.pe.karsei.boardtraffic.entity.Tag
+import kr.pe.karsei.boardtraffic.entity.*
 import kr.pe.karsei.boardtraffic.port.out.*
 import kr.pe.karsei.boardtraffic.repository.*
 import org.springframework.data.domain.Page
@@ -25,49 +22,62 @@ class PostJpaAdapter(
     private val tagRepository: TagRepository,
 ) : PostLoadPort, PostSavePort, CategorySavePort, PostCommentSavePort, PostTagSavePort {
     // ************************************* POSTS
+    override fun findPosts(userId: Long?, request: PostDto.PostSearchRequest, pageable: Pageable): Page<PostDto> {
+        return postRepository.findPosts(userId, request, pageable)
+    }
+
     override fun findPostsByUser(userId: Long, pageable: Pageable): Page<Post> {
         return postRepository.findByUserId(userId, pageable)
     }
 
-    override fun findPosts(request: PostDto.PostSearchRequest, pageable: Pageable): Page<PostDto> {
-        return postRepository.findPosts(request, pageable)
+    override fun insertPost(user: User, params: PostDto.InsertPostRequest): Post {
+        val category = categoryRepository.findById(params.categoryId)
+                .orElseThrow { throw ResponseStatusException(HttpStatus.NOT_FOUND, "카테고리가 존재하지 않습니다.") }
+        return postRepository.save(Post(
+                title = params.title,
+                contents = params.contents,
+                user = user,
+                category = category
+        ))
     }
 
-    override fun updatePost(request: PostDto.PostUpdateRequest) {
-        val post = postRepository.findById(request.id)
+    override fun updatePost(params: PostDto.PostUpdateRequest): Post {
+        val post = postRepository.findById(params.id)
             .orElseThrow { throw ResponseStatusException(HttpStatus.NOT_FOUND, "포스트가 존재하지 않습니다.") }
-        val category = if (request.categoryId != null) {
-            categoryRepository.findById(request.categoryId).orElse(null)
+        val category = if (params.categoryId != null) {
+            categoryRepository.findById(params.categoryId).orElse(null)
         } else { null }
-        val file = if (request.fileId != null) {
-            fileRepository.findById(request.fileId).orElse(null)
+        val file = if (params.fileId != null) {
+            fileRepository.findById(params.fileId).orElse(null)
         } else { null }
-        post.update(request.title, request.contents, category, file)
-        postRepository.save(post)
+        post.update(params.title, params.contents, category, file)
+        return postRepository.save(post)
     }
 
-    override fun deletePost(postId: Long) {
+    override fun deletePost(postId: Long): Post {
         val post = postRepository.findById(postId)
             .orElseThrow { throw ResponseStatusException(HttpStatus.NOT_FOUND, "포스트가 존재하지 않습니다.") }
         postRepository.delete(post)
+        return post
     }
 
     // ************************************* CATEGORY
-    override fun insertCategory(params: CategoryDto.InsertPostCategory) {
-        categoryRepository.save(Category(id = null, title = params.title))
+    override fun insertCategory(params: CategoryDto.InsertPostCategory): Category {
+        return categoryRepository.save(Category(id = null, title = params.title))
     }
 
-    override fun updateCategory(categoryId: Long, params: CategoryDto.UpdatePostCategory) {
+    override fun updateCategory(categoryId: Long, params: CategoryDto.UpdatePostCategory): Category {
         val category = categoryRepository.findById(categoryId)
             .orElseThrow { throw ResponseStatusException(HttpStatus.NOT_FOUND, "카테고리가 존재하지 않습니다.") }
         category.update(title = params.title)
-        categoryRepository.save(category)
+        return categoryRepository.save(category)
     }
 
-    override fun deleteCategory(categoryId: Long) {
+    override fun deleteCategory(categoryId: Long): Category {
         val category = categoryRepository.findById(categoryId)
             .orElseThrow { throw ResponseStatusException(HttpStatus.NOT_FOUND, "카테고리가 존재하지 않습니다.") }
         categoryRepository.delete(category)
+        return category
     }
 
     // ************************************* COMMENT

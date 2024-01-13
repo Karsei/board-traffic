@@ -6,11 +6,7 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 
 interface PostLoadPort {
+    fun findPosts(userId: Long?, request: PostDto.PostSearchRequest, pageable: Pageable): Page<PostDto>
+
     fun findPostsByUser(userId: Long, pageable: Pageable): Page<Post>
-
-    fun findPosts(request: PostDto.PostSearchRequest, pageable: Pageable): Page<PostDto>
-
-    fun updatePost(request: PostDto.PostUpdateRequest)
-
-    fun deletePost(postId: Long)
 }

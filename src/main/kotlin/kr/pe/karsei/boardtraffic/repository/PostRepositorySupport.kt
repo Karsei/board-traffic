@@ -5,5 +5,5 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 
 interface PostRepositorySupport {
-    fun findPosts(request: PostDto.PostSearchRequest, pageable: Pageable): Page<PostDto>
+    fun findPosts(userId: Long?, request: PostDto.PostSearchRequest, pageable: Pageable): Page<PostDto>
 }

@@ -6,11 +6,13 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 
 interface PostUseCase {
-    fun findMyPosts(userId: Long, pageable: Pageable): Page<Post>
+    fun findPosts(params: PostDto.PostSearchRequest, pageable: Pageable): Page<PostDto>
 
-    fun findPosts(postDto: PostDto.PostSearchRequest, pageable: Pageable): Page<PostDto>
+    fun findMyPosts(userId: Long, params: PostDto.PostSearchRequest, pageable: Pageable): Page<PostDto>
 
-    fun updatePost(params: PostDto.PostUpdateRequest)
+    fun insertPost(userId: Long, params: PostDto.InsertPostRequest)
 
-    fun deletePost(postId: Long)
+    fun updatePost(userId: Long, params: PostDto.PostUpdateRequest)
+
+    fun deletePost(userId: Long, postId: Long)
 }

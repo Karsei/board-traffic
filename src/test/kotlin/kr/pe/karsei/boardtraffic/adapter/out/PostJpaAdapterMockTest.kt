@@ -5,9 +5,7 @@ import kr.pe.karsei.boardtraffic.entity.Category
 import kr.pe.karsei.boardtraffic.entity.File
 import kr.pe.karsei.boardtraffic.entity.Post
 import kr.pe.karsei.boardtraffic.entity.User
-import kr.pe.karsei.boardtraffic.repository.CategoryRepository
-import kr.pe.karsei.boardtraffic.repository.FileRepository
-import kr.pe.karsei.boardtraffic.repository.PostRepository
+import kr.pe.karsei.boardtraffic.repository.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Test
@@ -33,6 +31,10 @@ class PostJpaAdapterMockTest {
     private lateinit var categoryRepository: CategoryRepository
     @Mock
     private lateinit var fileRepository: FileRepository
+    @Mock
+    private lateinit var commentRepository: CommentRepository
+    @Mock
+    private lateinit var tagRepository: TagRepository
     @InjectMocks
     private lateinit var postJpaAdapter: PostJpaAdapter
 
@@ -90,12 +92,12 @@ class PostJpaAdapterMockTest {
             )
         )
         val pageable = PageRequest.of(0, 10)
-        given(postRepository.findPosts(any(PostDto.PostSearchRequest::class.java), any(Pageable::class.java)))
+        given(postRepository.findPosts(any(), any(PostDto.PostSearchRequest::class.java), any(Pageable::class.java)))
             .willReturn(PageImpl(list, pageable, list.size.toLong()))
 
         // when
         val request = PostDto.PostSearchRequest()
-        val results = postJpaAdapter.findPosts(request, pageable)
+        val results = postJpaAdapter.findPosts(null, request, pageable)
 
         // then
         assertAll(

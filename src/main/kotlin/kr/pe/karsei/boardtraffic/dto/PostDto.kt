@@ -33,4 +33,12 @@ data class PostDto(
         val categoryId: Long?,
         val fileId: Long?,
     )
+
+    data class InsertPostRequest(
+            val title: String,
+            val contents: String,
+            val userId: Long,
+            val categoryId: Long,
+            val fileId: Long?,
+    )
 }

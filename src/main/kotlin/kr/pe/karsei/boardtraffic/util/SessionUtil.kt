@@ -7,20 +7,20 @@ class SessionUtil {
         private val LOGIN_MEMBER_ID = "LOGIN_MEMBER_ID"
         private val LOGIN_ADMIN_ID = "LOGIN_ADMIN_ID"
 
-        fun getLoginMemberId(session: HttpSession): String? {
-            return session.getAttribute(LOGIN_MEMBER_ID) as String?
+        fun getLoginMemberId(session: HttpSession): Long? {
+            return session.getAttribute(LOGIN_MEMBER_ID) as Long?
         }
 
-        fun setLoginMemberId(session: HttpSession, id: String) {
-            session.setAttribute(LOGIN_MEMBER_ID, id)
+        fun setLoginMemberId(session: HttpSession, userId: Long) {
+            session.setAttribute(LOGIN_MEMBER_ID, userId)
         }
 
-        fun getLoginAdminId(session: HttpSession): String? {
-            return session.getAttribute(LOGIN_ADMIN_ID) as String?
+        fun getLoginAdminId(session: HttpSession): Long? {
+            return session.getAttribute(LOGIN_ADMIN_ID) as Long?
         }
 
-        fun setLoginAdminId(session: HttpSession, id: String) {
-            session.setAttribute(LOGIN_ADMIN_ID, id)
+        fun setLoginAdminId(session: HttpSession, userId: Long) {
+            session.setAttribute(LOGIN_ADMIN_ID, userId)
         }
 
         fun clear(session: HttpSession) {

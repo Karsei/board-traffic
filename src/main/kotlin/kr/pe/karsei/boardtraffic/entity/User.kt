@@ -14,13 +14,13 @@ open class User(
         open val id: Long? = null,
 
         @Column
-        open var userId: String,
+        open var userId: String? = null,
 
         @Column
-        open var password: String,
+        open var password: String? = null,
 
         @Column
-        open var nickName: String,
+        open var nickName: String? = null,
 
         @Column
         open var isAdmin: Boolean = false,

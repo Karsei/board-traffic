@@ -64,7 +64,7 @@ class UserJpaAdapterMockTest {
     @Test
     fun testGetUserInfoWithPassword() {
         // given
-        given(userRepository.findByUserIdAndPassword(anyString(), anyString())).willReturn(mockUserForRead)
+        given(userRepository.findByIdAndPassword(anyString(), anyString())).willReturn(mockUserForRead)
 
         // when
         val userId = "testId"
@@ -145,7 +145,7 @@ class UserJpaAdapterMockTest {
     @Test
     fun updatePasswordIfUserIdIsNotFound() {
         // given
-        given(userRepository.findByUserIdAndPassword(anyString(), anyString())).willReturn(null)
+        given(userRepository.findByIdAndPassword(anyString(), anyString())).willReturn(null)
 
         // when & then
         val userId = "testId"
@@ -166,7 +166,7 @@ class UserJpaAdapterMockTest {
     @Test
     fun updatePasswordSuccessful() {
         // given
-        given(userRepository.findByUserIdAndPassword(anyString(), anyString())).willReturn(mockUserForRead)
+        given(userRepository.findByIdAndPassword(anyString(), anyString())).willReturn(mockUserForRead)
 
         // when & then
         val userId = "testId"
@@ -178,7 +178,7 @@ class UserJpaAdapterMockTest {
     @Test
     fun deleteUserIfUserIdIsNotFound() {
         // given
-        given(userRepository.findByUserIdAndPassword(anyString(), anyString())).willReturn(null)
+        given(userRepository.findByIdAndPassword(anyString(), anyString())).willReturn(null)
 
         // when & then
         val userId = "testId"
@@ -197,7 +197,7 @@ class UserJpaAdapterMockTest {
     @Test
     fun deleteUserSuccessful() {
         // given
-        given(userRepository.findByUserIdAndPassword(anyString(), anyString())).willReturn(mockUserForRead)
+        given(userRepository.findByIdAndPassword(anyString(), anyString())).willReturn(mockUserForRead)
 
         // when & then
         val userId = "testId"

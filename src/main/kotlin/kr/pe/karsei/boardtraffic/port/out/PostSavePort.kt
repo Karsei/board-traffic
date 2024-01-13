@@ -1,9 +1,13 @@
 package kr.pe.karsei.boardtraffic.port.out
 
 import kr.pe.karsei.boardtraffic.dto.PostDto
+import kr.pe.karsei.boardtraffic.entity.Post
+import kr.pe.karsei.boardtraffic.entity.User
 
 interface PostSavePort {
-    fun updatePost(request: PostDto.PostUpdateRequest)
+    fun insertPost(user: User, params: PostDto.InsertPostRequest): Post
 
-    fun deletePost(postId: Long)
+    fun updatePost(params: PostDto.PostUpdateRequest): Post
+
+    fun deletePost(postId: Long): Post
 }

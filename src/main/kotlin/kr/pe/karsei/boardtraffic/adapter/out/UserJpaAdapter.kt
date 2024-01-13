@@ -14,60 +14,43 @@ import org.springframework.web.server.ResponseStatusException
 class UserJpaAdapter(
         private val userRepository: UserRepository,
 ) : UserLoadPort, UserSavePort {
-    override fun getUserInfo(userId: String): UserDto? {
-        val user = userRepository.findByUserId(userId)
-        return mapToEntityToDto(user)
+    override fun getUserInfo(userId: Long): User? {
+        return userRepository.findById(userId).orElse(null)
     }
 
-    override fun getUserInfo(userId: String, password: String): UserDto? {
+    override fun getUserInfo(accountId: String, password: String): User? {
         val cryptPassword = SHA256Util.encryptSHA256(password)
-        val user = userRepository.findByUserIdAndPassword(userId, cryptPassword)
-        return mapToEntityToDto(user)
+        return userRepository.findByUserIdAndPassword(accountId, cryptPassword)
     }
 
-    override fun register(userProfile: UserDto.Register.UserRegisterRequest): UserDto {
-        var user = userRepository.findByUserId(userProfile.userId)
+    override fun register(userProfile: UserDto.Register.UserRegisterRequest): User {
+        val user = userRepository.findByUserId(userProfile.userId)
         if (user != null) throw ResponseStatusException(HttpStatus.CONFLICT, "중복된 아이디입니다.")
 
         userProfile.password = SHA256Util.encryptSHA256(userProfile.password)
 
-        user = userRepository.save(User.create(userId = userProfile.userId,
+        return userRepository.save(User.create(userId = userProfile.userId,
                 password = userProfile.password,
                 nickName = userProfile.nickName))
-        return mapToEntityToDto(user)!!
     }
 
-    override fun updatePassword(userId: String,
+    override fun updatePassword(userId: Long,
                                 beforePassword: String,
-                                afterPassword: String) {
+                                afterPassword: String): User {
         val encryptPassword = SHA256Util.encryptSHA256(beforePassword)
-        val user = userRepository.findByUserIdAndPassword(userId, encryptPassword)
+        val user = userRepository.findByIdAndPassword(userId, encryptPassword)
                 ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "올바르지 않는 아이디이거나 비밀번호입니다.")
         val password = SHA256Util.encryptSHA256(afterPassword)
         user.updatePassword(password)
-        userRepository.save(user)
+        return userRepository.save(user)
     }
 
-    override fun deleteUser(userId: String,
-                            password: String) {
+    override fun deleteUser(userId: Long,
+                            password: String): User {
         val encryptPassword = SHA256Util.encryptSHA256(password)
-        val user = userRepository.findByUserIdAndPassword(userId, encryptPassword)
+        val user = userRepository.findByIdAndPassword(userId, encryptPassword)
                 ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "올바르지 않는 아이디이거나 비밀번호입니다.")
         userRepository.delete(user)
-    }
-
-    private fun mapToEntityToDto(entity: User?): UserDto? {
-        if (entity == null) return null
-        return UserDto(
-                id = entity.id,
-                userId = entity.userId,
-                password = entity.password,
-                nickName = entity.nickName,
-                isAdmin = entity.isAdmin,
-                createdAt = entity.createdAt,
-                isWithDraw = entity.isWithDraw,
-                status = UserDto.Status.valueOf(entity.status.name),
-                updatedAt = entity.updatedAt,
-        )
+        return user
     }
 }

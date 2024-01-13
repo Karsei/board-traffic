@@ -33,7 +33,7 @@ class LoginCheckAspect {
             }
         } ?: throw ResponseStatusException(HttpStatus.BAD_REQUEST, "로그인한 ID를 확인해주세요.")
 
-        logger.info(proceedingJoinPoint.toString() + " accountName: " + userId)
+        logger.info(proceedingJoinPoint.toString() + " userId: " + userId)
 
         // controller 에서 첫 번째 인자로 전달
         val modifiedArgs = proceedingJoinPoint.args

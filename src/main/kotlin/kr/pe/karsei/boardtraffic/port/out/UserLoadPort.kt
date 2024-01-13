@@ -1,9 +1,9 @@
 package kr.pe.karsei.boardtraffic.port.out
 
-import kr.pe.karsei.boardtraffic.dto.UserDto
+import kr.pe.karsei.boardtraffic.entity.User
 
 interface UserLoadPort {
-    fun getUserInfo(userId: String): UserDto?
+    fun getUserInfo(userId: Long): User?
 
-    fun getUserInfo(userId: String, password: String): UserDto?
+    fun getUserInfo(accountId: String, password: String): User?
 }

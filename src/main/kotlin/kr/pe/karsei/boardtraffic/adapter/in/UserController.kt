@@ -39,9 +39,9 @@ class UserController(
 
         val userDto = userUseCase.login(id, password)
         if (userDto.status == UserDto.Status.ADMIN)
-            SessionUtil.setLoginAdminId(httpSession, id)
+            SessionUtil.setLoginAdminId(httpSession, userDto.id!!)
         else
-            SessionUtil.setLoginMemberId(httpSession, id)
+            SessionUtil.setLoginMemberId(httpSession, userDto.id!!)
 
         return userDto
     }
@@ -63,15 +63,14 @@ class UserController(
 
     @PatchMapping("password")
     @LoginCheck(type = LoginCheck.UserType.USER)
-    fun updateUserPassword(accountId: String,
+    fun updateUserPassword(userId: Long,
                            @RequestBody userUpdatePasswordRequest: UserUpdatePasswordRequest,
                            session: HttpSession): ResponseEntity<out Any> {
-        val id: String = accountId
         val beforePassword: String = userUpdatePasswordRequest.beforePassword
         val afterPassword: String = userUpdatePasswordRequest.afterPassword
 
         return try {
-            userUseCase.updatePassword(id, beforePassword, afterPassword)
+            userUseCase.updatePassword(userId, beforePassword, afterPassword)
             ResponseEntity(HttpStatus.NO_CONTENT)
         } catch (e: IllegalArgumentException) {
             logger.error("updatePassword 실패", e)

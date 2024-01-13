@@ -9,7 +9,7 @@ open class Category(
     open val id: Long? = null,
 
     @Column
-    open var title: String,
+    open var title: String? = null,
 ) {
     fun update(title: String) {
         this.title = title

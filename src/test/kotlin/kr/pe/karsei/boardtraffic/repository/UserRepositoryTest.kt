@@ -50,7 +50,7 @@ class UserRepositoryTest @Autowired constructor(
         val password = "1234"
 
         // when
-        val result = userRepository.findByUserIdAndPassword(userId, password)
+        val result = userRepository.findByIdAndPassword(userId, password)
 
         // then
         assertAll(

@@ -15,8 +15,8 @@ import org.springframework.util.StringUtils
 class PostRepositorySupportImpl(
     private val queryFactory: JPAQueryFactory,
 ) : PostRepositorySupport {
-    override fun findPosts(request: PostDto.PostSearchRequest, pageable: Pageable): Page<PostDto> {
-        val searchCondition = getFindPostSearchCondition(request)
+    override fun findPosts(userId: Long?, request: PostDto.PostSearchRequest, pageable: Pageable): Page<PostDto> {
+        val searchCondition = getFindPostSearchCondition(userId, request)
 
         val orders: MutableList<OrderSpecifier<*>> = getFindPostSearchSort(pageable)
 
@@ -70,8 +70,12 @@ class PostRepositorySupportImpl(
         return orders
     }
 
-    private fun getFindPostSearchCondition(request: PostDto.PostSearchRequest): BooleanBuilder {
+    private fun getFindPostSearchCondition(userId: Long?, request: PostDto.PostSearchRequest): BooleanBuilder {
         val searchCondition = BooleanBuilder()
+
+        if (userId != null) {
+            searchCondition.and(post.user.id.eq(userId))
+        }
 
         if (StringUtils.hasText(request.title)) {
             searchCondition.and(post.title.startsWith(request.title))
