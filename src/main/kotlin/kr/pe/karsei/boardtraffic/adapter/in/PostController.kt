@@ -7,6 +7,7 @@ import kr.pe.karsei.boardtraffic.port.`in`.PostCommentUseCase
 import kr.pe.karsei.boardtraffic.port.`in`.PostUseCase
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
+import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -32,6 +33,7 @@ class PostController(
 
     @PostMapping
     @LoginCheck(type = LoginCheck.UserType.USER)
+    @ResponseStatus(HttpStatus.CREATED)
     fun insertPost(userId: Long,
                    @RequestBody params: PostDto.InsertPostRequest): PostDto {
         params.setMandatory(userId)
@@ -57,6 +59,7 @@ class PostController(
     // ------------------------- COMMENT
     @PostMapping("{postId}/comments")
     @LoginCheck(type = LoginCheck.UserType.USER)
+    @ResponseStatus(HttpStatus.CREATED)
     fun insertComment(userId: Long,
                       @PathVariable postId: Long,
                       @RequestBody params: CommentDto.InsertCommentRequest): CommentDto {

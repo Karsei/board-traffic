@@ -3,6 +3,7 @@ package kr.pe.karsei.boardtraffic.adapter.`in`
 import kr.pe.karsei.boardtraffic.aop.LoginCheck
 import kr.pe.karsei.boardtraffic.dto.CategoryDto
 import kr.pe.karsei.boardtraffic.port.`in`.CategoryUseCase
+import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -12,6 +13,7 @@ class CategoryController(
 ) {
     @PostMapping
     @LoginCheck(type = LoginCheck.UserType.ADMIN)
+    @ResponseStatus(HttpStatus.CREATED)
     fun insertCategory(userId: Long,
                        @RequestBody params: CategoryDto.InsertPostCategory): CategoryDto {
         params.setMandatory(userId)
