@@ -30,7 +30,7 @@ class PostController(
     @PostMapping
     @LoginCheck(type = LoginCheck.UserType.USER)
     fun insertPost(userId: Long,
-                   @RequestBody request: PostDto.InsertPostRequest) {
+                   @RequestBody request: PostDto.InsertPostRequest): PostDto {
         return postUseCase.insertPost(userId, request)
     }
 
@@ -38,14 +38,14 @@ class PostController(
     @LoginCheck(type = LoginCheck.UserType.USER)
     fun updatePost(userId: Long,
                    @PathVariable postId: Long,
-                   request: PostDto.PostUpdateRequest) {
-        postUseCase.updatePost(userId, request)
+                   request: PostDto.PostUpdateRequest): PostDto {
+        return postUseCase.updatePost(userId, request)
     }
 
     @DeleteMapping("{postId}")
     @LoginCheck(type = LoginCheck.UserType.USER)
     fun deletePost(userId: Long,
-                   @PathVariable postId: Long) {
-        postUseCase.deletePost(userId, postId)
+                   @PathVariable postId: Long): PostDto {
+        return postUseCase.deletePost(userId, postId)
     }
 }
