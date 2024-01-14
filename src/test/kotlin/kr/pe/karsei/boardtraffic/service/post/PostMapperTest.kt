@@ -17,6 +17,16 @@ class PostMapperTest {
         // then
         assertAll(
             { assertThat(result).isNotNull() },
+            { assertThat(result?.id).isEqualTo(entity.id) },
+            { assertThat(result?.title).isEqualTo(entity.title) },
+            { assertThat(result?.isAdmin).isEqualTo(entity.isAdmin) },
+            { assertThat(result?.contents).isEqualTo(entity.contents) },
+            { assertThat(result?.views).isEqualTo(entity.views) },
+            { assertThat(result?.categoryId).isEqualTo(entity.category.id) },
+            { assertThat(result?.userId).isEqualTo(entity.user.id) },
+            { assertThat(result?.fileId).isEqualTo(entity.file?.id) },
+            { assertThat(result?.createdAt).isEqualTo(entity.createdAt) },
+            { assertThat(result?.updatedAt).isEqualTo(entity.updatedAt) },
         )
     }
 
@@ -45,6 +55,9 @@ class PostMapperTest {
         // then
         assertAll(
             { assertThat(result).isNotNull() },
+            { assertThat(result?.id).isEqualTo(entity.id) },
+            { assertThat(result?.contents).isEqualTo(entity.contents) },
+            { assertThat(result?.subCommentId).isEqualTo(entity.subComment?.id) },
         )
     }
 
@@ -73,6 +86,8 @@ class PostMapperTest {
         // then
         assertAll(
             { assertThat(result).isNotNull() },
+            { assertThat(result?.id).isEqualTo(entity.id) },
+            { assertThat(result?.title).isEqualTo(entity.title) },
         )
     }
 
