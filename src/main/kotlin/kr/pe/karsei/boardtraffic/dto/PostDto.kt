@@ -7,7 +7,7 @@ data class PostDto(
     val title: String?,
     val isAdmin: Boolean?,
     val contents: String?,
-    val views: Int,
+    val views: Int?,
     val categoryId: Long?,
     val userId: Long?,
     val fileId: Long?,
