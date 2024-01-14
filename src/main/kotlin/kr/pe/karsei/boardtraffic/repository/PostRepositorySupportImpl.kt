@@ -10,8 +10,10 @@ import kr.pe.karsei.boardtraffic.entity.QPost.post
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.support.PageableExecutionUtils
+import org.springframework.stereotype.Repository
 import org.springframework.util.StringUtils
 
+@Repository
 class PostRepositorySupportImpl(
     private val queryFactory: JPAQueryFactory,
 ) : PostRepositorySupport {
@@ -22,7 +24,7 @@ class PostRepositorySupportImpl(
 
         val list = queryFactory
             .select(
-                Projections.fields(
+                Projections.constructor(
                     PostDto::class.java,
                     post.id,
                     post.title,
