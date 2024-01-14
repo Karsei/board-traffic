@@ -4,8 +4,8 @@ import jakarta.servlet.http.HttpSession
 
 class SessionUtil {
     companion object {
-        private val LOGIN_MEMBER_ID = "LOGIN_MEMBER_ID"
-        private val LOGIN_ADMIN_ID = "LOGIN_ADMIN_ID"
+        private const val LOGIN_MEMBER_ID = "LOGIN_MEMBER_ID"
+        private const val LOGIN_ADMIN_ID = "LOGIN_ADMIN_ID"
 
         fun getLoginMemberId(session: HttpSession): Long? {
             return session.getAttribute(LOGIN_MEMBER_ID) as Long?
