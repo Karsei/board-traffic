@@ -1,5 +1,5 @@
 package kr.pe.karsei.boardtraffic.dto.rest
 
-interface CommonResponse<T> {
+interface SimpleResponse<T> {
     fun getData(): T
 }
