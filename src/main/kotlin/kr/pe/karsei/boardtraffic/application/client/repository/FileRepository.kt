@@ -1,0 +1,7 @@
+package kr.pe.karsei.boardtraffic.application.client.repository
+
+import kr.pe.karsei.boardtraffic.application.post.domain.File
+import org.springframework.data.jpa.repository.JpaRepository
+
+interface FileRepository : JpaRepository<File, Long> {
+}
