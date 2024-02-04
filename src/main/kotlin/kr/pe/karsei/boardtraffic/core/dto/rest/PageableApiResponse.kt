@@ -1,10 +1,10 @@
-package kr.pe.karsei.boardtraffic.dto.rest
+package kr.pe.karsei.boardtraffic.core.dto.rest
 
 import org.springframework.data.domain.Page
 
 class PageableApiResponse<T>(
-        private val data: List<T>,
-        private val meta: PageableMeta,
+    private val data: List<T>,
+    private val meta: PageableMeta,
 ): AdditionalSimpleResponse<Collection<T>> {
     override fun getMeta(): SimpleMeta {
         return this.meta

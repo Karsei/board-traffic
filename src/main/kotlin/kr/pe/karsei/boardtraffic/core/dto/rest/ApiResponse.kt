@@ -1,4 +1,4 @@
-package kr.pe.karsei.boardtraffic.dto.rest
+package kr.pe.karsei.boardtraffic.core.dto.rest
 
 class ApiResponse<T>(
         private val data: T,
