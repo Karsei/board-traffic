@@ -10,6 +10,10 @@ import kr.pe.karsei.boardtraffic.application.post.dto.CategoryDto
 import kr.pe.karsei.boardtraffic.application.post.dto.CommentDto
 import kr.pe.karsei.boardtraffic.application.post.dto.PostDto
 import kr.pe.karsei.boardtraffic.application.post.dto.TagDto
+import kr.pe.karsei.boardtraffic.application.post.exception.NotFoundCategoryException
+import kr.pe.karsei.boardtraffic.application.post.exception.NotFoundCommentException
+import kr.pe.karsei.boardtraffic.application.post.exception.NotFoundPostException
+import kr.pe.karsei.boardtraffic.application.post.exception.NotFoundTagException
 import kr.pe.karsei.boardtraffic.application.post.port.out.*
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -49,7 +53,7 @@ class PostJpaAdapter(
 
     override fun updatePost(params: PostDto.UpdatePostRequest): Post {
         val post = postRepository.findById(params.id)
-            .orElseThrow { throw ResponseStatusException(HttpStatus.NOT_FOUND, "포스트가 존재하지 않습니다.") }
+            .orElseThrow { throw NotFoundPostException() }
         val category = if (params.categoryId != null) {
             categoryRepository.findById(params.categoryId!!).orElse(null)
         } else { null }
@@ -62,7 +66,7 @@ class PostJpaAdapter(
 
     override fun deletePost(postId: Long): Post {
         val post = postRepository.findById(postId)
-            .orElseThrow { throw ResponseStatusException(HttpStatus.NOT_FOUND, "포스트가 존재하지 않습니다.") }
+            .orElseThrow { throw NotFoundPostException() }
         postRepository.delete(post)
         return post
     }
@@ -74,14 +78,14 @@ class PostJpaAdapter(
 
     override fun updateCategory(params: CategoryDto.UpdatePostCategory): Category {
         val category = categoryRepository.findById(params.categoryId!!)
-            .orElseThrow { throw ResponseStatusException(HttpStatus.NOT_FOUND, "카테고리가 존재하지 않습니다.") }
+            .orElseThrow { throw NotFoundCategoryException() }
         category.update(title = params.title)
         return categoryRepository.save(category)
     }
 
     override fun deleteCategory(categoryId: Long): Category {
         val category = categoryRepository.findById(categoryId)
-            .orElseThrow { throw ResponseStatusException(HttpStatus.NOT_FOUND, "카테고리가 존재하지 않습니다.") }
+            .orElseThrow { throw NotFoundCategoryException() }
         categoryRepository.delete(category)
         return category
     }
@@ -93,14 +97,14 @@ class PostJpaAdapter(
 
     override fun updateComment(commentId: Long, params: CommentDto.UpdateCommentRequest): Comment {
         val comment = commentRepository.findById(commentId)
-            .orElseThrow { throw ResponseStatusException(HttpStatus.NOT_FOUND, "댓글이 존재하지 않습니다.") }
+            .orElseThrow { throw NotFoundCommentException() }
         comment.update(contents = params.contents)
         return commentRepository.save(comment)
     }
 
     override fun deleteComment(commentId: Long): Comment {
         val comment = commentRepository.findById(commentId)
-            .orElseThrow { throw ResponseStatusException(HttpStatus.NOT_FOUND, "댓글이 존재하지 않습니다.") }
+            .orElseThrow { throw NotFoundCommentException() }
         commentRepository.delete(comment)
         return comment
     }
@@ -112,14 +116,14 @@ class PostJpaAdapter(
 
     override fun updateTag(tagId: Long, params: TagDto.UpdateTagRequest) {
         val tag = tagRepository.findById(tagId)
-            .orElseThrow { throw ResponseStatusException(HttpStatus.NOT_FOUND, "태그가 존재하지 않습니다.") }
+            .orElseThrow { throw NotFoundTagException() }
         tag.update(name = params.name, url = params.url)
         tagRepository.save(tag)
     }
 
     override fun deleteTag(tagId: Long) {
         val tag = tagRepository.findById(tagId)
-            .orElseThrow { throw ResponseStatusException(HttpStatus.NOT_FOUND, "태그가 존재하지 않습니다.") }
+            .orElseThrow { throw NotFoundTagException() }
         tagRepository.delete(tag)
     }
 }
