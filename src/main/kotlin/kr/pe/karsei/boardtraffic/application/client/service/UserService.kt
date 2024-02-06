@@ -1,14 +1,14 @@
 package kr.pe.karsei.boardtraffic.application.client.service
 
 import kr.pe.karsei.boardtraffic.application.client.dto.UserDto
+import kr.pe.karsei.boardtraffic.application.client.exception.NotFoundClientException
+import kr.pe.karsei.boardtraffic.application.client.exception.NotFoundOrInvalidPasswordClientException
 import kr.pe.karsei.boardtraffic.application.client.port.`in`.UserUseCase
 import kr.pe.karsei.boardtraffic.application.client.port.out.UserLoadPort
 import kr.pe.karsei.boardtraffic.application.client.port.out.UserSavePort
 import kr.pe.karsei.boardtraffic.application.client.service.UserMapper.Companion.mapToEntityToDto
-import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import org.springframework.web.server.ResponseStatusException
 
 @Service
 class UserService(
@@ -18,7 +18,7 @@ class UserService(
     @Transactional(readOnly = true)
     override fun getUserInfo(userId: Long): UserDto {
         val user = (userLoadPort.getUserInfo(userId)
-                ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "존재하지 않는 아이디입니다."))
+                ?: throw NotFoundClientException())
         return mapToEntityToDto(user)!!
     }
 
@@ -26,7 +26,7 @@ class UserService(
     override fun login(accountId: String,
                        password: String): UserDto {
         val user = (userLoadPort.getUserInfo(accountId, password)
-                ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "올바르지 않는 아이디이거나 비밀번호입니다."))
+                ?: throw NotFoundOrInvalidPasswordClientException())
         return mapToEntityToDto(user)!!
     }
 

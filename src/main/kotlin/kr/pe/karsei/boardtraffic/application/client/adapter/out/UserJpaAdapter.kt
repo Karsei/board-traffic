@@ -2,13 +2,13 @@ package kr.pe.karsei.boardtraffic.application.client.adapter.out
 
 import kr.pe.karsei.boardtraffic.application.client.dto.UserDto
 import kr.pe.karsei.boardtraffic.application.client.domain.User
+import kr.pe.karsei.boardtraffic.application.client.exception.ConflictClientException
+import kr.pe.karsei.boardtraffic.application.client.exception.NotFoundOrInvalidPasswordClientException
 import kr.pe.karsei.boardtraffic.application.client.port.out.UserLoadPort
 import kr.pe.karsei.boardtraffic.application.client.port.out.UserSavePort
 import kr.pe.karsei.boardtraffic.application.post.repository.UserRepository
 import kr.pe.karsei.boardtraffic.core.util.SHA256Util
-import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
-import org.springframework.web.server.ResponseStatusException
 
 @Service
 class UserJpaAdapter(
@@ -25,7 +25,7 @@ class UserJpaAdapter(
 
     override fun register(userProfile: UserDto.Register.UserRegisterRequest): User {
         val user = userRepository.findByUserId(userProfile.userId)
-        if (user != null) throw ResponseStatusException(HttpStatus.CONFLICT, "중복된 아이디입니다.")
+        if (user != null) throw ConflictClientException()
 
         userProfile.password = SHA256Util.encryptSHA256(userProfile.password)
 
@@ -40,7 +40,7 @@ class UserJpaAdapter(
                                 afterPassword: String): User {
         val encryptPassword = SHA256Util.encryptSHA256(beforePassword)
         val user = userRepository.findByIdAndPassword(userId, encryptPassword)
-                ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "올바르지 않는 아이디이거나 비밀번호입니다.")
+                ?: throw NotFoundOrInvalidPasswordClientException()
         val password = SHA256Util.encryptSHA256(afterPassword)
         user.updatePassword(password)
         return userRepository.save(user)
@@ -50,7 +50,7 @@ class UserJpaAdapter(
                             password: String): User {
         val encryptPassword = SHA256Util.encryptSHA256(password)
         val user = userRepository.findByIdAndPassword(userId, encryptPassword)
-                ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "올바르지 않는 아이디이거나 비밀번호입니다.")
+                ?: throw NotFoundOrInvalidPasswordClientException()
         userRepository.delete(user)
         return user
     }
