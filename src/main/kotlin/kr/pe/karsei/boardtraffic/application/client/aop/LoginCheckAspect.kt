@@ -21,7 +21,7 @@ class LoginCheckAspect {
     private val logger = logger()
 
     @Around("@annotation(kr.pe.karsei.boardtraffic.application.client.aop.LoginCheck) && @annotation(loginCheck)")
-    fun adminLoginCheck(proceedingJoinPoint: ProceedingJoinPoint, loginCheck: LoginCheck): Any {
+    fun loginCheckHandler(proceedingJoinPoint: ProceedingJoinPoint, loginCheck: LoginCheck): Any {
         val session = (RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes).request.session as HttpSession
 
         val userId = when (loginCheck.type.toString()) {
